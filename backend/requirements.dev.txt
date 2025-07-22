@@ -1,2 +1,6 @@
 flake8
 black
+isort
+kafka-python
+coverage
+pytest-django
