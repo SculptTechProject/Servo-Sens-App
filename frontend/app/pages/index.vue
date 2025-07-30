@@ -2,45 +2,43 @@
   <div class="min-h-screen flex flex-col text-gray-200 bg-gray-950">
     <!-- ===== HEADER ===== -->
     <header class="py-4 bg-gray-900">
-  <div class="container mx-auto flex items-center justify-between">
-    <h1 class="text-2xl font-semibold flex items-center gap-2">
-      <Icon name="i-heroicons-cpu-chip" class="w-8 h-8 text-emerald-500" />
-      ServoSenseApp
-    </h1>
+      <div class="container mx-auto flex items-center justify-between">
+        <h1 class="text-2xl font-semibold flex items-center gap-2">
+          <Icon name="i-heroicons-cpu-chip" class="w-8 h-8 text-emerald-500" />
+          ServoSenseApp
+        </h1>
 
-    <nav class="flex items-center gap-6">
-      <NuxtLink
-        to="#features"
-        class="inline-flex items-center leading-none hover:text-emerald-400"
-      >
-        Funkcje
-      </NuxtLink>
+        <nav class="flex items-center gap-6">
+          <NuxtLink
+            to="#features"
+            class="inline-flex items-center leading-none hover:text-emerald-400"
+          >
+            Funkcje
+          </NuxtLink>
 
-      <NuxtLink
-        to="#stack"
-        class="inline-flex items-center leading-none hover:text-emerald-400"
-      >
-        Tech Stack
-      </NuxtLink>
-      <a
-        href="https://github.com/SculptTechProject/Servo-Sens-App"
-        target="_blank"
-        class="inline-flex items-center px-4 py-2 rounded bg-emerald-600 shadow hover:bg-emerald-500"
-      >
-        GitHub
-      </a>
-    </nav>
-  </div>
-</header>
-
+          <NuxtLink
+            to="#stack"
+            class="inline-flex items-center leading-none hover:text-emerald-400"
+          >
+            Tech Stack
+          </NuxtLink>
+          <a
+            href="https://github.com/SculptTechProject/Servo-Sens-App"
+            target="_blank"
+            class="inline-flex items-center px-4 py-2 rounded bg-emerald-600 shadow hover:bg-emerald-500"
+          >
+            GitHub
+          </a>
+        </nav>
+      </div>
+    </header>
 
     <!-- ===== HERO ===== -->
     <main class="flex-grow">
       <section class="container mx-auto py-24 text-center">
         <h2 class="text-4xl md:text-5xl font-bold mb-4">
-          Monitoruj swoje dane <em class="text-emerald-500"
-            >w czasie rzeczywistym</em
-          >
+          Monitoruj swoje dane
+          <em class="text-emerald-500">w czasie rzeczywistym</em>
         </h2>
         <p class="text-xl text-gray-300 max-w-2xl mx-auto">
           ServoSenseApp to platforma klasy przemysłowej do procesowania,
@@ -84,7 +82,7 @@
         <h3 class="text-3xl font-semibold text-center mb-12">Tech Stack</h3>
 
         <div class="flex flex-wrap justify-center gap-4 text-lg">
-          <Tag v-for="t in stack" :key="t">{{ t }}</Tag>
+          <TagCard v-for="t in stack" :key="t">{{ t }}</TagCard>
         </div>
       </section>
     </main>
@@ -109,7 +107,7 @@ const features = [
     desc: "Ustaw temperaturę/drgania i dostajesz powiadomienie.",
   },
   {
-    icon: "i-heroicons-database",
+    icon: "i-heroicons-circle-stack",
     title: "API sensorów",
     desc: "REST CRUD dla sensorów i odczytów.",
   },

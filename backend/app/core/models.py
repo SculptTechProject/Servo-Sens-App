@@ -41,3 +41,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = "email"
+
+class Sensor(models.Model):
+    """Sensor model"""
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sensors")
+    rpm = models.FloatField(default=0.0)
+    temperature = models.FloatField(default=0.0)
+    vibration = models.FloatField(default=0.0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
