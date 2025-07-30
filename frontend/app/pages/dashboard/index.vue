@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from "~/_stores/auth";
 const auth = useAuthStore();
+const router = useRouter(); 
 
 const loading = ref(true);
 const isAuthed = computed(() => {
@@ -27,6 +28,10 @@ function goLogin() {
 }
 function goRegister() {
   navigateTo("/register");
+}
+
+function goWorkspaces() {
+  router.push('/dashboard/workspaces');
 }
 </script>
 
@@ -68,7 +73,17 @@ function goRegister() {
           Witaj, <em class="text-emerald-500">{{ auth.user?.name }}</em>
         </h2>
         <p class="text-gray-300 mt-3">Masz dostęp do panelu i API.</p>
-        <div class="mt-6 flex justify-center gap-3">
+
+        <div class="mt-6 flex flex-wrap justify-center gap-3">
+          <!-- NEW: przejście do /workspaces -->
+          <button
+            class="px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-500 shadow inline-flex items-center gap-2"
+            @click="goWorkspaces"
+          >
+            <Icon name="i-heroicons-folder" class="w-5 h-5" />
+            Workspaces
+          </button>
+
           <button
             class="px-4 py-2 rounded border border-emerald-500 text-emerald-400 hover:bg-emerald-600 hover:text-white"
             @click="auth.logout()"

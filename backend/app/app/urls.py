@@ -22,8 +22,14 @@ from drf_spectacular.views import (
 from .views import HealthCheckView
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from core.views import WorkspaceViewSet
+
+router = DefaultRouter()
+router.register("workspaces", WorkspaceViewSet, basename="workspace")
 
 urlpatterns = [
+    path("api/", include(router.urls)),
     path("", HealthCheckView.as_view(), name="health-check"),
     path("admin/", admin.site.urls),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
@@ -33,4 +39,5 @@ urlpatterns = [
         name="api-docs",
     ),
     path("api/user/", include("user.urls")),
+    path("api/sim/", include(("simulator.urls", "simulator"), namespace="sim")),
 ]

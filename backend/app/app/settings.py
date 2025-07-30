@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "drf_spectacular",
     "user",
+    "simulator",
+    "channels",
 ]
 
 MIDDLEWARE = [
@@ -147,4 +149,19 @@ SPECTACULAR_SETTINGS = {
 
 INSTALLED_APPS += ["corsheaders"]
 MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware", *MIDDLEWARE]
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "http://localhost:5173", "http://localhost:8080"]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "http://localhost:8080",
+]
+
+ASGI_APPLICATION = "app.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {"hosts": [("redis", 6379)]},
+    }
+}
+
+ALLOWED_HOSTS = ["*", "localhost", "127.0.0.1"]

@@ -6,6 +6,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 
 
+
 class HealthCheckView(generics.GenericAPIView):
     """Health check view to verify the app is running."""
 

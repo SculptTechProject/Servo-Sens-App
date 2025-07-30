@@ -17,5 +17,19 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@pinia/nuxt",
     "nuxt-icon",
+    "nuxt-security",
   ],
+  security: {
+    headers: {
+      contentSecurityPolicy: {
+        "connect-src": [
+          "'self'",
+          "http://localhost:8000",
+          "ws://localhost:8000",
+          "http://127.0.0.1:8000",
+          "ws://127.0.0.1:8000",
+        ],
+      },
+    },
+  },
 });

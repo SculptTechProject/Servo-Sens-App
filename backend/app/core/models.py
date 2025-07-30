@@ -8,6 +8,7 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
+from django.conf import settings
 
 
 class UserManager(BaseUserManager):
@@ -43,16 +44,40 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
 
 
+class Workspace(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(max_length=120)
+
+
+class Machine(models.Model):
+    workspace = models.ForeignKey(
+        Workspace, on_delete=models.CASCADE, related_name="machines"
+    )
+    name = models.CharField(max_length=120)
+    kind = models.CharField(max_length=50, default="motor")  # typ: motor/pump/etc.
+    x = models.IntegerField(default=100)  # pozycja na canvasie
+    y = models.IntegerField(default=100)
+
 class Sensor(models.Model):
-    """Sensor model"""
+    machine = models.ForeignKey(
+        Machine, on_delete=models.CASCADE, related_name="sensors",
+        null=True, blank=True
+    )
+    SENSOR_KIND = (("temperature","temperature"),("vibration","vibration"),("current","current"))
+    kind = models.CharField(max_length=50, choices=SENSOR_KIND, default="temperature")
+    unit = models.CharField(max_length=20, default="°C")
+    threshold = models.FloatField(null=True, blank=True)
 
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sensors")
-    rpm = models.FloatField(default=0.0)
-    temperature = models.FloatField(default=0.0)
-    vibration = models.FloatField(default=0.0)
-    created_at = models.DateTimeField(auto_now_add=True)
+class Event(models.Model):
+    workspace = models.ForeignKey(
+        Workspace, on_delete=models.CASCADE, related_name="events"
+    )
+    ts = models.DateTimeField(auto_now_add=True)
+    level = models.CharField(max_length=10, default="WARN")  # INFO/WARN/CRIT
+    sensor = models.ForeignKey(Sensor, null=True, blank=True, on_delete=models.SET_NULL)
+    message = models.CharField(max_length=200)
 
-    def __str__(self):
-        return self.name
+class Reading(models.Model):
+    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
+    ts = models.DateTimeField(auto_now_add=True)
+    value = models.FloatField()

@@ -5,3 +5,6 @@ python-decouple
 drf-yasg
 django-cors-headers
 drf-spectacular
+channels
+channels-redis
+daphne
