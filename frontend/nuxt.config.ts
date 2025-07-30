@@ -2,10 +2,12 @@
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
+  ssr: false,
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
   vite: { plugins: [tailwindcss()] },
+  runtimeConfig: { public: { apiBase: process.env.NUXT_PUBLIC_API_BASE } },
   modules: [
     "@nuxt/content",
     "@nuxt/eslint",
@@ -13,5 +15,7 @@ export default defineNuxtConfig({
     "@nuxt/scripts",
     "@nuxt/test-utils",
     "@nuxt/ui",
+    "@pinia/nuxt",
+    "nuxt-icon",
   ],
 });

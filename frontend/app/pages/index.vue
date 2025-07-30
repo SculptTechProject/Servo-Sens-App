@@ -1,37 +1,6 @@
 <template>
   <div class="min-h-screen flex flex-col text-gray-200 bg-gray-950">
-    <!-- ===== HEADER ===== -->
-    <header class="py-4 bg-gray-900">
-      <div class="container mx-auto flex items-center justify-between">
-        <h1 class="text-2xl font-semibold flex items-center gap-2">
-          <Icon name="i-heroicons-cpu-chip" class="w-8 h-8 text-emerald-500" />
-          ServoSenseApp
-        </h1>
-
-        <nav class="flex items-center gap-6">
-          <NuxtLink
-            to="#features"
-            class="inline-flex items-center leading-none hover:text-emerald-400"
-          >
-            Funkcje
-          </NuxtLink>
-
-          <NuxtLink
-            to="#stack"
-            class="inline-flex items-center leading-none hover:text-emerald-400"
-          >
-            Tech Stack
-          </NuxtLink>
-          <a
-            href="https://github.com/SculptTechProject/Servo-Sens-App"
-            target="_blank"
-            class="inline-flex items-center px-4 py-2 rounded bg-emerald-600 shadow hover:bg-emerald-500"
-          >
-            GitHub
-          </a>
-        </nav>
-      </div>
-    </header>
+    <AppHeader />
 
     <!-- ===== HERO ===== -->
     <main class="flex-grow">

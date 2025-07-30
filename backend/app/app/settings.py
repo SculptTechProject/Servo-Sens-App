@@ -144,3 +144,7 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "SECURITY": [{"TokenAuth": []}],
 }
+
+INSTALLED_APPS += ["corsheaders"]
+MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware", *MIDDLEWARE]
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "http://localhost:5173", "http://localhost:8080"]
