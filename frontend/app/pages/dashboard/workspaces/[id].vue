@@ -1,4 +1,3 @@
-<!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { useApi } from "~/_composables/useApi";
@@ -28,7 +27,7 @@ const running = ref(false);
 const readings = ref<any[]>([]);
 const events = ref<any[]>([]);
 
-async function loadInfo() {
+/* async function loadInfo() {
   loadingInfo.value = true;
   try {
     info.value = await api(`/api/workspaces/${id}/`);
@@ -37,7 +36,7 @@ async function loadInfo() {
   } finally {
     loadingInfo.value = false;
   }
-}
+} */
 
 onMounted(() => {
   tick = window.setInterval(() => {

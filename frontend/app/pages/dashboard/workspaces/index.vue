@@ -39,7 +39,7 @@ async function createWs() {
   }
   creating.value = true;
   try {
-    const ws = await api("/api/workspaces/", {
+    const ws = await api<Ws>("/api/workspaces/", {
       method: "POST",
       body: { name: name.value.trim() },
     });
@@ -55,8 +55,10 @@ async function createWs() {
 async function quickstart() {
   creatingDemo.value = true;
   try {
-    const ws = await api("/api/workspaces/quickstart/", { method: "POST" });
-    // od razu przejdź do detalu
+    const ws = (await api("/api/workspaces/", {
+      method: "POST",
+      body: { name: name.value.trim() },
+    })) as Ws;
     router.push({ name: "dashboard-workspaces-id", params: { id: ws.id } });
   } finally {
     creatingDemo.value = false;
@@ -68,7 +70,7 @@ async function seedWs(id: number) {
     await api(`/api/workspaces/${id}/seed/`, { method: "POST" });
     router.push({ name: "dashboard-workspaces-id", params: { id } });
   } catch {
-    // cicho – zostaniemy na liście
+    return;
   }
 }
 
@@ -83,7 +85,7 @@ function openWs(id: number) {
     <main class="container mx-auto px-4 py-10">
       <h2 class="text-3xl font-bold mb-6">Twoje Workspaces</h2>
 
-      <!-- Formularz -->
+      <!-- Form -->
       <form
         class="bg-gray-900 rounded-xl p-4 mb-6 shadow"
         @submit.prevent="createWs"
@@ -105,12 +107,10 @@ function openWs(id: number) {
         <p v-if="createError" class="text-rose-400 mt-2">{{ createError }}</p>
       </form>
 
-      <!-- Lista / empty state -->
       <div v-if="loading" class="text-gray-400">Ładuję…</div>
       <div v-else-if="error" class="text-rose-400">{{ error }}</div>
 
       <div v-else class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <!-- karty -->
         <div
           v-for="w in items"
           :key="w.id"
@@ -126,9 +126,9 @@ function openWs(id: number) {
               Pracuj
             </button>
             <button
-            class="px-4 py-2 rounded border border-emerald-500 text-emerald-400 hover:bg-emerald-600 hover:text-white"
-            title="Dodaj przykładowe sensory i przejdź do widoku"
-            @click="seedWs(w.id)"
+              class="px-4 py-2 rounded border border-emerald-500 text-emerald-400 hover:bg-emerald-600 hover:text-white"
+              title="Dodaj przykładowe sensory i przejdź do widoku"
+              @click="seedWs(w.id)"
             >
               Seed demo
             </button>
