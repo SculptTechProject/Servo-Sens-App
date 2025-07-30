@@ -4,3 +4,4 @@ psycopg2-binary
 python-decouple
 drf-yasg
 django-cors-headers
+drf-spectacular
