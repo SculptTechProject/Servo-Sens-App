@@ -9,11 +9,11 @@ django_asgi_app = get_asgi_application()
 
 import simulator.routing
 
-application = ProtocolTypeRouter({
-    "http": django_asgi_app,
-    "websocket": AllowedHostsOriginValidator(
-        AuthMiddlewareStack(
-            URLRouter(simulator.routing.websocket_urlpatterns)
-        )
-    ),
-})
+application = ProtocolTypeRouter(
+    {
+        "http": django_asgi_app,
+        "websocket": AllowedHostsOriginValidator(
+            AuthMiddlewareStack(URLRouter(simulator.routing.websocket_urlpatterns))
+        ),
+    }
+)

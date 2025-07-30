@@ -10,6 +10,7 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from core.models import Sensor, Event, Reading
 
+
 def run_inline_cycles(workspace_id: int, cycles: int = 4) -> None:
     sensors = sensors_of_sync(workspace_id)
     if not sensors:
@@ -22,11 +23,25 @@ def run_inline_cycles(workspace_id: int, cycles: int = 4) -> None:
             # (WS można pominąć w testach, ale jak chcesz – zostaw)
             async_to_sync(get_channel_layer().group_send)(
                 f"ws_{workspace_id}",
-                {"type": "ws.message", "data": {"type": "reading", "sensor_id": sid, "value": val, "unit": unit}},
+                {
+                    "type": "ws.message",
+                    "data": {
+                        "type": "reading",
+                        "sensor_id": sid,
+                        "value": val,
+                        "unit": unit,
+                    },
+                },
             )
             if isinstance(thr, (int, float)) and val > thr:
-                Event.objects.create(workspace_id=workspace_id, sensor_id=sid, level="WARN", message=f"{s['kind']} > {thr}")
+                Event.objects.create(
+                    workspace_id=workspace_id,
+                    sensor_id=sid,
+                    level="WARN",
+                    message=f"{s['kind']} > {thr}",
+                )
             Reading.objects.create(sensor_id=sid, value=val)
+
 
 # ---- DB helpers (SYNC ORM) ----
 def sensors_of_sync(workspace_id: int) -> List[dict]:
@@ -55,7 +70,11 @@ class WaveState:
 
     def next(self) -> float:
         self.t += 0.35
-        val = self.p["base"] + self.p["amp"] * math.sin(self.t) + random.gauss(0, self.p["noise"])
+        val = (
+            self.p["base"]
+            + self.p["amp"] * math.sin(self.t)
+            + random.gauss(0, self.p["noise"])
+        )
         if random.random() < self.p["spike"][0]:
             val += self.p["spike"][1]
         return round(val, 2)
@@ -78,18 +97,35 @@ def run_sync(workspace_id: int, stop_evt: threading.Event) -> None:
             # push LIVE po WS (działa z InMemory i Redis)
             async_to_sync(layer.group_send)(
                 f"ws_{workspace_id}",
-                {"type": "ws.message",
-                 "data": {"type": "reading", "sensor_id": sid, "value": val, "unit": unit}},
+                {
+                    "type": "ws.message",
+                    "data": {
+                        "type": "reading",
+                        "sensor_id": sid,
+                        "value": val,
+                        "unit": unit,
+                    },
+                },
             )
 
             if isinstance(thr, (int, float)) and val > thr:
                 Event.objects.create(
-                    workspace_id=workspace_id, sensor_id=sid, level="WARN", message=f"{s['kind']} > {thr}"
+                    workspace_id=workspace_id,
+                    sensor_id=sid,
+                    level="WARN",
+                    message=f"{s['kind']} > {thr}",
                 )
                 async_to_sync(layer.group_send)(
                     f"ws_{workspace_id}",
-                    {"type": "ws.message",
-                     "data": {"type": "event", "level": "WARN", "sensor_id": sid, "message": f"{s['kind']} alert"}},
+                    {
+                        "type": "ws.message",
+                        "data": {
+                            "type": "event",
+                            "level": "WARN",
+                            "sensor_id": sid,
+                            "message": f"{s['kind']} alert",
+                        },
+                    },
                 )
 
             Reading.objects.create(sensor_id=sid, value=val)
@@ -121,6 +157,7 @@ def start_sim(workspace_id: int) -> bool:
 
 from django.conf import settings
 
+
 def stop_sim(workspace_id: int) -> bool:
     if getattr(settings, "SIMULATOR_INLINE", False):
         return True
@@ -134,4 +171,3 @@ def stop_sim(workspace_id: int) -> bool:
     _threads.pop(workspace_id, None)
     _stops.pop(workspace_id, None)
     return True
-

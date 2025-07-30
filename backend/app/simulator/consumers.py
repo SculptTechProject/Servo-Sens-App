@@ -1,5 +1,6 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
+
 class WorkspaceConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         self.ws_id = self.scope["url_route"]["kwargs"]["ws_id"]

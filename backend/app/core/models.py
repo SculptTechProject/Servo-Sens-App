@@ -58,15 +58,20 @@ class Machine(models.Model):
     x = models.IntegerField(default=100)  # pozycja na canvasie
     y = models.IntegerField(default=100)
 
+
 class Sensor(models.Model):
     machine = models.ForeignKey(
-        Machine, on_delete=models.CASCADE, related_name="sensors",
-        null=True, blank=True
+        Machine, on_delete=models.CASCADE, related_name="sensors", null=True, blank=True
     )
-    SENSOR_KIND = (("temperature","temperature"),("vibration","vibration"),("current","current"))
+    SENSOR_KIND = (
+        ("temperature", "temperature"),
+        ("vibration", "vibration"),
+        ("current", "current"),
+    )
     kind = models.CharField(max_length=50, choices=SENSOR_KIND, default="temperature")
     unit = models.CharField(max_length=20, default="°C")
     threshold = models.FloatField(null=True, blank=True)
+
 
 class Event(models.Model):
     workspace = models.ForeignKey(
@@ -76,6 +81,7 @@ class Event(models.Model):
     level = models.CharField(max_length=10, default="WARN")  # INFO/WARN/CRIT
     sensor = models.ForeignKey(Sensor, null=True, blank=True, on_delete=models.SET_NULL)
     message = models.CharField(max_length=200)
+
 
 class Reading(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
