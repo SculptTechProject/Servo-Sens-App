@@ -1,4 +1,4 @@
-# ⚙️ ServoSenseApp (work in progress)
+## ⚙️ ServoSenseApp (work in progress)
 
 **An engineering‑grade platform for real‑time sensor data ingestion, visualization and alerting.**
 Backend: **Django + DRF + Channels** (ASGI, Redis). Frontend: **Nuxt 3 (Vue 3)**. Local dev via **Docker Compose**.
@@ -6,6 +6,10 @@ Backend: **Django + DRF + Channels** (ASGI, Redis). Frontend: **Nuxt 3 (Vue 3)
 > Live WebSockets + one‑click **Quickstart/Seed** — see data flowing in seconds.
 
 ---
+
+## 📁 See all docs:
+
+### Click: [docs/](docs/)
 
 ## 🧱 Tech Stack
 
@@ -199,15 +203,12 @@ docker compose run --rm app black --check .
 
   * Ensure `connect-src` allows `ws:`/`wss:` in dev (see `nuxt.config.ts`).
   * With proxy (`/ws/**`), the browser connects to `ws://localhost:3000/ws/...` and Nitro forwards to `:8000`.
-
 * **Backend logs: `X of Y channels over capacity in group ws_*`**:
 
   * The WS client is not actually connected (CSP/CORS/URL). Fix CSP or WS URL.
-
 * **Start clicked, but no data**:
 
   * Workspace has no sensors. Use **`POST /api/workspaces/{id}/seed/`** or the **Seed + Start** button in the UI.
-
 * **404 for `/ws/...`**:
 
   * Make sure the backend runs an **ASGI** server (Daphne/Uvicorn) and Channels routing includes the consumer.
@@ -225,3 +226,5 @@ docker compose run --rm app black --check .
 ## 📜 License
 
 **MIT** — feel free to use, modify and share. A credit link is appreciated 🙌
+
+# 📁 See all docs: [docs/](docs/)
