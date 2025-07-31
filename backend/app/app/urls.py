@@ -15,18 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from drf_spectacular.views import (
-    SpectacularAPIView,
-    SpectacularSwaggerView,
-)
-from .views import HealthCheckView
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from core.views import WorkspaceViewSet
+from core.views import WorkspaceViewSet, MachineViewSet, SensorViewSet
+from .views import HealthCheckView
 
 router = DefaultRouter()
 router.register("workspaces", WorkspaceViewSet, basename="workspace")
+router.register("core/machines", MachineViewSet, basename="core-machine")
+router.register("core/sensors", SensorViewSet, basename="core-sensor")
 
 urlpatterns = [
     path("api/", include(router.urls)),
@@ -39,5 +38,8 @@ urlpatterns = [
         name="api-docs",
     ),
     path("api/user/", include("user.urls")),
-    path("api/sim/", include(("simulator.urls", "simulator"), namespace="sim")),
+    path("api/", include(("simulator.urls", "simulator"), namespace="simulator")),
+    path(
+        "api/sim/", include(("simulator.urls", "simulator"), namespace="sim")
+    ),  # aliasy do testów
 ]
