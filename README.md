@@ -223,6 +223,15 @@ docker compose run --rm app black --check .
 
 ---
 
+## 🚧 Work in progress (pre-alpha). Stable enough to explore; expect breaking changes. Screens below use already simulated data.
+<img width="1898" height="966" alt="image" src="https://github.com/user-attachments/assets/5342a3c6-b025-4b2c-902f-2ea81926cd88" />
+<img width="1868" height="898" alt="image" src="https://github.com/user-attachments/assets/7f1160cf-8072-42ef-a144-fb94dfa7011a" />
+<img width="677" height="404" alt="image" src="https://github.com/user-attachments/assets/c62b9284-9057-4e1a-82c4-2b9a9f5e016a" />
+<img width="1865" height="915" alt="image" src="https://github.com/user-attachments/assets/ace13c0e-c846-4aed-93cf-df35634cb82b" />
+<img width="531" height="440" alt="image" src="https://github.com/user-attachments/assets/e9470d56-90d8-494c-a621-f036dd1aeec3" />
+
+---
+
 ## 📜 License
 
 **MIT** — feel free to use, modify and share. A credit link is appreciated 🙌
