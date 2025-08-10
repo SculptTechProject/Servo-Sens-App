@@ -1,0 +1,53 @@
+services:
+  backend:
+    build: { context: ./backend, args: [DEV=true] }
+    working_dir: /app
+    command: >
+      sh -c "python app/manage.py wait_for_db &&
+             python app/manage.py migrate &&
+             python app/manage.py runserver 0.0.0.0:8000"
+    ports: ["8000:8000"]
+    volumes: ["./backend:/app"]
+    env_file: ["./backend/.env"]
+    depends_on:
+      db: { condition: service_healthy }
+      redis: { condition: service_healthy }
+
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+    ports: ["3000:3000"]
+    environment:
+      - NUXT_PUBLIC_API_BASE=http://localhost:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      backend:
+        condition: service_started
+
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=dev_db
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=changeme
+    volumes: ["dev-db-data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} -h 127.0.0.1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD","redis-cli","ping"]
+      interval: 3s
+      timeout: 2s
+      retries: 20
+
+volumes:
+  dev-db-data:

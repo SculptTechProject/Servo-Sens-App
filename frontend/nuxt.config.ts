@@ -22,6 +22,7 @@ export default defineNuxtConfig({
       "/ws/**": { proxy: "http://127.0.0.1:8000/ws/**" },
     },
   },
+
   modules: [
     "@nuxt/content",
     "@nuxt/eslint",
