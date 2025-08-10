@@ -2,7 +2,7 @@
 
 [![Release](https://img.shields.io/github/v/release/SculptTechProject/Servo-Sens-App)](../../releases)
 [![License](https://img.shields.io/github/license/SculptTechProject/Servo-Sens-App)](./LICENSE)
-
+[![Last commit](https://img.shields.io/github/last-commit/SculptTechProject/Servo-Sens-App)](https://github.com/SculptTechProject/Servo-Sens-App/commits)
 
 **An engineering‑grade platform for real‑time sensor data ingestion, visualization and alerting.**
 Backend: **Django + DRF + Channels** (ASGI, Redis). Frontend: **Nuxt 3 (Vue 3)**. Local dev via **Docker Compose**.
