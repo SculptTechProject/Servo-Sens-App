@@ -1,5 +1,11 @@
 ## ⚙️ ServoSenseApp (work in progress)
 
+![Build Python](https://github.com/SculptTechProject/Servo-Sens-App/actions/workflows/ci-python.yml/badge.svg?branch=main)
+![Build Node](https://github.com/SculptTechProject/Servo-Sens-App/actions/workflows/ci-node.yml/badge.svg?branch=main)
+[![Release](https://img.shields.io/github/v/release/SculptTechProject/Servo-Sens-App)](../../releases)
+[![License](https://img.shields.io/github/license/SculptTechProject/Servo-Sens-App)](./LICENSE)
+
+
 **An engineering‑grade platform for real‑time sensor data ingestion, visualization and alerting.**
 Backend: **Django + DRF + Channels** (ASGI, Redis). Frontend: **Nuxt 3 (Vue 3)**. Local dev via **Docker Compose**.
 
