@@ -34,7 +34,7 @@ jobs:
         run: docker compose run --rm backend sh -lc "/py/bin/python app/manage.py test -v 2"
 
       - name: Lint
-        run: docker compose run --rm backend sh -lc "flake8"
+        run: docker compose run --rm backend sh -lc "/py/bin/flake8"
 
       - name: Teardown
         if: always()
