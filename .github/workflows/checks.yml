@@ -7,8 +7,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Debug services
-        run: docker compose -f docker-compose.yml config --services
+      - name: Create backend .env for CI
+        env:
+          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+        run: |
+          cat > backend/.env <<EOF
+          DEBUG=1
+          DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-dev-secret}
+          DB_HOST=db
+          DB_PORT=5432
+          DB_NAME=dev_db
+          DB_USER=devuser
+          DB_PASSWORD=changeme
+          REDIS_HOST=redis
+          REDIS_PORT=6379
+          ALLOWED_HOSTS=*
+          EOF
 
       - name: Start infra (DB + Redis)
         run: docker compose up -d db redis
