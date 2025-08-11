@@ -33,6 +33,10 @@ jobs:
       - name: Test
         run: docker compose run --rm backend sh -lc "/py/bin/python app/manage.py test -v 2"
 
+      - name: Auto-format (Black + isort)
+        run: docker compose run --rm backend sh -lc "/py/bin/isort app && /py/bin/black app"
+
+
       - name: Lint
         run: docker compose run --rm backend sh -lc "/py/bin/flake8"
 
