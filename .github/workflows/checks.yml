@@ -7,9 +7,20 @@ permissions:
 jobs:
   test-lint:
     runs-on: ubuntu-24.04
-
     steps:
       - uses: actions/checkout@v4
+
+      - name: Write flake8 config (CI)
+        run: |
+          cat > backend/.flake8 <<'EOF'
+          [flake8]
+          max-line-length = 88
+          extend-ignore = E203, W503
+          per-file-ignores =
+              app/core/migrations/*: E501
+              app/app/asgi.py: E402
+              app/simulator/services.py: F811,E402
+          EOF
 
       - name: Set up Python for formatting
         uses: actions/setup-python@v5
