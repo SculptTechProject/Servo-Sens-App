@@ -28,10 +28,10 @@ jobs:
         run: docker compose up -d db redis
 
       - name: Wait for database
-        run: docker compose run --rm backend sh -lc "python app/manage.py wait_for_db"
+        run: docker compose run --rm backend sh -lc "/py/bin/python app/manage.py wait_for_db"
 
       - name: Test
-        run: docker compose run --rm backend sh -lc "python app/manage.py test -v 2"
+        run: docker compose run --rm backend sh -lc "/py/bin/python app/manage.py test -v 2"
 
       - name: Lint
         run: docker compose run --rm backend sh -lc "flake8"
