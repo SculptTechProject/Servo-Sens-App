@@ -1,11 +1,33 @@
 name: Checks
 on: [push]
 
+permissions:
+  contents: write
+
 jobs:
   test-lint:
     runs-on: ubuntu-24.04
+
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set up Python for formatting
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Auto-format (black + isort)
+        run: |
+          pip install --upgrade pip
+          pip install black isort
+          isort backend/app
+          black backend/app
+
+      - name: Auto-commit formatted files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "ci(fmt): black+isort [skip ci]"
+          file_pattern: backend/**/*.py
 
       - name: Create backend .env for CI
         env:
@@ -32,10 +54,6 @@ jobs:
 
       - name: Test
         run: docker compose run --rm backend sh -lc "/py/bin/python app/manage.py test -v 2"
-
-      - name: Auto-format (Black + isort)
-        run: docker compose run --rm backend sh -lc "/py/bin/isort app && /py/bin/black app"
-
 
       - name: Lint
         run: docker compose run --rm backend sh -lc "/py/bin/flake8"
